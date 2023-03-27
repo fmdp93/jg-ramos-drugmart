@@ -30,7 +30,7 @@
             </td>
             
             <td class="text-end">                
-                <input type="text" name="price" value="{{ sprintf('%.2f', $product->io2p_price) }}" class="price form-control ms-auto">
+                <input type="number" name="price" value="{{ sprintf('%.2f', $product->io2p_price) }}" class="price form-control ms-auto">
             </td>
             <td class="text-end subtotal">
                 {{ sprintf('%.2f', $product->io2p_price * $product->io2p_quantity) }}

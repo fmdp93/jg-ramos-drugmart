@@ -11,7 +11,7 @@
         <input type="hidden" name="t_description[]" value="{{ $description }}" form="{{ $form }}">        
         {{ $description }}</td>
     <td>        
-        <input type="number" name="quantity[]" value="{{ $quantity }}" form="{{ $form }}" min="1" required>
+        <input type="number" name="quantity[]" value="{{ $quantity }}" form="{{ $form }}" min="" >
     </td>
     <td class="price">
         <input type="hidden" name="price[]" value="{{ $price }}" form="{{ $form }}">

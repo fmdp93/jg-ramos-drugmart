@@ -25,6 +25,9 @@
         </a>
         <a href="{{ route('inventory_archives') }}" class="btn btn-success mb-xl-3 text-primary">
             <i class="fa fa-box-archive"></i> Archives</a>
+            <a href="{{ url('/products') }}" class="btn btn-success mb-xl-3 text-primary">
+            <i class="fa fa-plus-circle"></i> Add/Update Products
+        </a> 
     </div>
     <div class="row align-items-center mb-xl-4">
         <div class="col-xl-3">
@@ -32,18 +35,15 @@
         </div>
         <div class="col-xl-auto ps-5">
             <input type="hidden" name="stock_filter" value="{{ request()->input('stock_filter') }}">            
-            <button id="normal-stock" data-filter="normal" class="btn btn-button-submit px-4 py-3">
+            <button id="normal-stock" data-filter="normal" class="btn btn-button-submit px-2 py-2">
                 <i class="fa-solid fa-circle-check"></i>
                 Normal Stock
             </button>
-            <button id="half-stock" data-filter="half" class="btn btn-half px-4 py-3">
+            <button id="half-stock" data-filter="half" class="btn btn-half px-2 py-2">
                 <i class="fa-solid fa-arrow-trend-down"></i>
                 Half Stock
             </button>
-            <button id="low-stock" data-filter="low" class="btn btn-low px-4 py-3">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                Low Stock
-            </button>
+            
         </div>
         <div class="col-xl-auto ms-auto">
             <div class="d-flex align-items-center">

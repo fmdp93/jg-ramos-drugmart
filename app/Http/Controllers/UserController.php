@@ -21,7 +21,7 @@ class UserController extends Controller
         // $this->validateLogin($Request, "Invalid username/password");
         $username = $request->input('username');
         $password = $request->input('password');
-        $request->session()->flash('msg_error', 'The provided credentials do not match our records.');
+        $request->session()->flash('msg_error', 'Wrong Username/Password!!');
         $credentials = $request->validate([
             'username' => ['required'],
             'password' => ['required'],
@@ -35,10 +35,10 @@ class UserController extends Controller
 
             switch (Auth::user()->role_id) {
                 case 1: //admin
-                    return redirect()->intended(action([ProductsController::class, 'index']));
+                    return redirect()->intended(action([InventoryController::class, 'index']));
                     break;
                 case 2: //cashier
-                    return redirect()->intended(action([POSController::class, 'index']));
+                    return redirect()->intended(action([CashierProductsController::class, 'index']));
                     break;
             }
         }

@@ -39167,8 +39167,8 @@ $(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\dev\Docker\Machine\php8\htdocs\maemaestore\app\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\dev\Docker\Machine\php8\htdocs\maemaestore\app\resources\scss\app.scss */"./resources/scss/app.scss");
+__webpack_require__(/*! C:\Users\fmdp9\Desktop\app2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\fmdp9\Desktop\app2\resources\scss\app.scss */"./resources/scss/app.scss");
 
 
 /***/ })

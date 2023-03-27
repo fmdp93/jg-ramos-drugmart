@@ -21,7 +21,7 @@ class POS {
         this.$tbody = $("#products_list tbody");
         this.$table_empty = $(".table-empty");
         this.$products_list = $("#products_list");
-        this.$add_item = $("#add-item");
+        this.$add_item = $("#s_quantity");
         this.$s_total = $("#s_total");
         this.$total = $("#total");
         this.$pay_cash_total = $("#pay-cash-total");

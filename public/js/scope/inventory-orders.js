@@ -18,14 +18,30 @@ class InventoryOrders {
         this.$body.on(
             "keydown change",
             "input[name='quantity']",
-            this.updateSubtotal
+            function (event) {
+                let isPlusMinus = func.preventPlusMinus(event);
+                if (isPlusMinus === false) {
+                    return false;
+                }
+                _this.updateSubtotal(event);
+            }
         );
         this.$body.on("click", ".order-received", this.orderReceivedSubmit);
         this.$modal.on("hidden.bs.modal", function (event) {
             _this.$modal_tbody.html("");
             _this.loadInventoryOrdersList(event);
         });
-        this.$body.on("keyup change", "input[name='price']", this.updateSubtotal);
+        this.$body.on(
+            "keydown change",
+            "input[name='price']",
+            function (event) {
+                let isPlusMinus = func.preventPlusMinus(event);
+                if (isPlusMinus === false) {
+                    return false;
+                }
+                _this.updateSubtotal(event);
+            }
+        );
     }
 
     loadInventoryOrdersList(event) {
@@ -83,14 +99,18 @@ class InventoryOrders {
     }
 
     updateSubtotal(event) {
-        let price = func.falsyToZero($(this).parents("tr").find("input[name='price']").val());
+        let price = func.falsyToZero(
+            $(this).parents("tr").find("input[name='price']").val()
+        );
         let $subtotal = $(this).parents("tr").find(".subtotal");
-        let subtotal = func.falsyToZero($subtotal.val());        
+        let subtotal = func.falsyToZero($subtotal.val());
 
         let defer = $.Deferred();
         let filtered = defer.then(
             function () {
-                let qty = func.falsyToZero($(this).parents("tr").find("input[name='quantity']").val());                
+                let qty = func.falsyToZero(
+                    $(this).parents("tr").find("input[name='quantity']").val()
+                );
                 subtotal = parseFloat(price) * parseFloat(qty);
             }.bind(this)
         );
@@ -116,8 +136,7 @@ class InventoryOrders {
         _this.order_received = [];
         $.get(
             "/inventory/order-products",
-            { io_id: io_id,
-                supplier_id: supplier_id},
+            { io_id: io_id, supplier_id: supplier_id },
             function (response) {
                 let parsed = JSON.parse(response);
                 _this.$modal_tbody.html(parsed.modal_content);

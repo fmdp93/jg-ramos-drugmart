@@ -86,7 +86,7 @@ class Inventory {
         };
         this.ObjectSearch.appendParam(objSearchParam);
 
-        this.$search.on("keyup", this.requestProduct);
+        this.$search.on("keyup", _.throttle(this.requestProduct, 500));
     }
 
     setTableColor(stock_filter) {

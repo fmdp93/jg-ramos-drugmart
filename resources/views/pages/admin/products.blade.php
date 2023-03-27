@@ -30,6 +30,8 @@ use App\Http\Controllers\ProductsController;
                 <div class="col-12">
                     <a href="{{ action([ProductsController::class, 'addProduct']) }}"
                         class="btn btn-success mb-xl-3 text-primary"><i class="fa fa-plus-circle"></i> Add Item</a>
+                        <a href="{{ route('add_supplier') }}"
+                class="btn btn-success mb-xl-3 text-primary"><i class="fa fa-plus-circle"></i> Add Supplier</a>
                 </div>
             </div>
             <form id="{{ $form_id }}" action="{{ url('/product/update') }}" method="POST">
@@ -86,8 +88,7 @@ use App\Http\Controllers\ProductsController;
                     @include('components.error-message')
                 @enderror
                 <br>
-                <label for="supplier_search">Search Supplier <a href="{{ route('add_supplier') }}"
-                        class="text-decoration-underline" target="_blank">(New Supplier? Click here)</a></label>
+                <label for="supplier_search">Search Supplier</label>
                 <input type="text" name="supplier_search" id="supplier_search" value="{{ old('supplier_search') }}"
                     class="form-control mb-3" autocomplete="off">
                 <input type="hidden" name="supplier_search_id" id="supplier_search_id"
@@ -120,14 +121,7 @@ use App\Http\Controllers\ProductsController;
                     <input type="hidden" name="action" id="action" value="{{ $action }}">
                     <input type="hidden" name="action" id="action_print_barcode" value="{{ $action_print_barcode }}">
                 </div>
-                <div class="col-xl-4">
-                    <label for="cam">Use Camera</label>
-                    <select name="cam" id="cam" class="form-select d-inline-block align-middle w-75">
-                        <option>Loading camera...</option>
-                    </select>
-                    <button id="scanner" class="btn btn-success"><i class="fa-solid fa-barcode"></i></button>
-                    <div id="reader" class="mt-3"></div>
-                </div>
+                
                 <div class="col-xl-3">
                     <label for="category_id">Filter By Category</label>
                     <select name="category_id" id="category_id" class="form-select" form="{{ $form_id }}">
@@ -149,7 +143,7 @@ use App\Http\Controllers\ProductsController;
                         <th scope="col">Base Price</th>
                         <th scope="col">Markup</th>
                         <th scope="col">Selling Price</th>
-                        <th scope="col">Stock</th>
+                        <th scope="col">Max Stock</th>
                         <th scope="col">Unit</th>
                         <th scope="col">Expiration</th>
                         <th scope="col">Action</th>

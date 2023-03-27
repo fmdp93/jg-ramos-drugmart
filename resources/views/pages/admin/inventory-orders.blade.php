@@ -14,6 +14,9 @@
             <a href="{{ route('inventory_order_history') }}" class="btn btn-success mb-xl-3 text-primary">
                 <i class="fa fa-clock"></i> History
             </a>
+            <a  class="btn btn-success mb-xl-3 text-primary">
+                <i class="fa fa-clock"></i> Back Order
+            </a>
             <table id="inventory_order_list" class="table table-striped">
                 <thead>
                     <tr>
@@ -41,6 +44,48 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="detailsModalContentLabel" class="d-block">
                                     Ordered Products'
+                                    List</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>Item Code</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Description</th>
+                                        <th class="text-end">Base Price</th>
+                                        <th class="text-end">Markup Price</th>
+                                        <th class="text-end">Selling Price</th>
+                                        <th class="fit">Quantity</th>
+                                        <th class="">Expiration</th>
+                                        <th class="text-end">Ordered Price</th>
+                                        <th class="text-end">Total</th>
+                                        <th class="text-center">Action</th>
+                                    </thead>
+                                    <tbody class="align-middle">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @empty(count($inventory_orders))
+                @include('layouts.empty-table')
+            @endempty
+        </div>
+    </div>
+    <div id="details-modal">
+                <div class="modal fade" id="detailsModalContent2" tabindex="-1"
+                    aria-labelledby="detailsModalContentLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-fullscreen p-5">
+                        <div class="modal-content">                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detailsModalContentLabel" class="d-block">
+                                    BackOrdered Products'
                                     List</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>

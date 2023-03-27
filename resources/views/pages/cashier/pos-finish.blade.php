@@ -71,7 +71,7 @@ use App\Http\Controllers\POSController;
                             <th scope="col">Price</th>
                             <th scope="col">Amount Paid</th>
                             <th scope="col">Change</th>
-                            <th scope="col">Action</th>
+                            
                         </tr>
                     </thead>
                     <tbody>

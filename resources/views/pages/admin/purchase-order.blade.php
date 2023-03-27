@@ -29,6 +29,7 @@ use App\Http\Controllers\InventoryController;
                 @csrf
                 <label for="supplier">Supplier</label>
                 <select name="supplier" id="supplier" class="form-select mb-3">
+                    <option value="">---Choose Supplier---</option>
                     @foreach ($suppliers as $supplier)
                         <option value="{{ $supplier->id }}" 
                             {{ old('supplier') == $supplier->id ? 'selected' : '' }}>
@@ -44,15 +45,7 @@ use App\Http\Controllers\InventoryController;
                 <input name="item_code" id="item_code" class="form-control form-control-xl mb-3" type="text"
                     aria-label="item_code" tabindex="1" value="{{ old('item_code') }}" autocomplete="off">
                 <div class="row align-items-end mb-3">
-                    <div class="col-xl">
-                        <label for="item_code">Scan Using Camera</label>
-                        <select name="cam" id="cam" class="form-select mr-xl-3 d-inline-block align-middle"> --}}
-                            <option>Loading camera...</option>
-                        </select>
-                    </div>
-                    <div class="col-xl-auto">
-                        <button id="scanner" class="btn btn-success"><i class="fa-solid fa-barcode"></i></button>
-                    </div>
+                    
                 </div>
 
                 <label for="name">Item Name</label>
@@ -80,7 +73,7 @@ use App\Http\Controllers\InventoryController;
                     <div id="reader"></div>
                 </div>
                 <div class="col-xl-auto ms-auto">
-                    <button id="clear-table" class="btn btn-danger px-4 py-3 ms-auto">
+                    <button id="clear-table" class="btn btn-danger px-2 py-2 ms-auto">
                         <i class="fa-solid fa-circle-xmark"></i>
                         Clear Table</button>
                 </div>
@@ -88,7 +81,7 @@ use App\Http\Controllers\InventoryController;
             @if ($errors->any())
                 @php
                     $message = 'Please Fix the errors below';
-                    // print_r($errors->all());
+                    print_r($errors->all());
                 @endphp
                 <div class="py-3">
                     @include('components.error-message')

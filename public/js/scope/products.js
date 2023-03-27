@@ -54,8 +54,8 @@ class Products {
     }
 
     triggerEvents() {
-        this.search();
-        this.searchCategory();
+        this.$search.on("keyup", "", { this: this }, _.throttle(this.requestProduct, 500));
+        this.$category.on("change", "", { this: this }, this.requestProduct);
         this.$products_list.on("click", "tbody tr", this.fillUpdateForm);
         $(".delete-cell button").on("click", function () {
             _this.deleteClicked = true;
@@ -88,14 +88,6 @@ class Products {
             _this.$contact.val(parsed_response.supplier.contact_detail);
             _this.$address.val(parsed_response.supplier.address);            
         });
-    }
-
-    searchCategory() {
-        this.$category.on("change", "", { this: this }, this.requestProduct);
-    }
-
-    search() {
-        this.$search.on("keyup", "", { this: this }, this.requestProduct);
     }
 
     requestProduct(event) {

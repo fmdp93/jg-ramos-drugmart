@@ -34,12 +34,20 @@ class PurchaseOrder {
         this.$item_code.on("change keyup focus", this.requestProduct);
         this.$add_item.on("click", this.addProductToForm);
         $("#products_list").on(
-            "change keyup",
+            "change keydown",
             "input[name='quantity[]']",
-            this.updateForm
+            function (event) {
+                let isPlusMinus = func.preventPlusMinus(event);
+                if (isPlusMinus === false) {
+                    return false;
+                }
+                _this.updateForm(event);
+            }
         );
         $("#products_list").on("click", ".delete-item", this.deleteItem);
         this.$add_supplier_items.on("click", this.addSupplierItems);
+        this.$quantity.on("keydown", func.preventPlusMinus);
+
         $(document).ready(function () {
             _this.updateTotal();
         });
@@ -137,9 +145,15 @@ class PurchaseOrder {
     }
 
     response_addItemToTable(response) {
+        // console.log('response_addItemToTable');
         let parsed_response = JSON.parse(response);
         if (parsed_response?.tbody) {
             _this.$tbody.append(parsed_response.tbody);
+
+            _this.$vendor.val(parsed_response.result.vendor);
+            _this.$company.val(parsed_response.result.company_name);
+            _this.$contact.val(parsed_response.result.contact_detail);
+            _this.$address.val(parsed_response.result.address);
 
             func.toggletableEmpty(_this.$tbody, _this.$table_empty);
         }
@@ -151,7 +165,7 @@ class PurchaseOrder {
             let result = parsed_response.result;
             $("#name").val(result.p_name);
             $("#description").val(result.description);
-            $("#s_price").val(result.price);
+            $("#s_price").val(result.base_price);
         } else {
             // console.log("not found");
         }

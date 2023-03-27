@@ -21,7 +21,7 @@ class AddProduct {
         this.objBarcodeReader.$item_code = this.$item_code;
         this.objBarcodeReader.then_callback =
             this.objBarcodeReader.changeItemCode;
-        this.objBarcodeReader.done_callback = function () {};
+        this.objBarcodeReader.done_callback = this.getItemCodeDetails;
 
         this.$new_item_code = $("#new_item_code");
 

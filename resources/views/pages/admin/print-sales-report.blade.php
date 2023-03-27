@@ -48,22 +48,27 @@
                 <div class="col-xl-8">
                     @switch(request()->input('date_filter'))
                         @case('daily')
+                        <p class="fs-5">Daily</p>
                             <p class="fs-5">List for: {{ $from }}</p>
                         @break
 
-                        {{-- @case('weekly')
-                        <p class="fs-5">List for: this week</p>
-                    @break --}}
+                        @case('weekly')
+                            <p class="fs-5">Weekly</p>
+                        <p class="fs-5">List for: {{ $from }} to {{ $to }}</p>
+                    @break 
                         @case('monthly')
+                        <p class="fs-5">Monthly</p>
                             <p class="fs-5">List for: {{ date('F', strtotime($from)) }}
                                 {{ date('Y', strtotime($to)) }}</p>
                         @break
 
                         @case('yearly')
+                        <p class="fs-5">Yearly</p>
                             <p class="fs-5">List for: {{ date('Y', strtotime($to)) }}</p>
                         @break
 
                         @default
+                       
                             <p class="fs-5">List from: {{ $from }} to {{ $to }}</p>
                     @endswitch
                 </div>

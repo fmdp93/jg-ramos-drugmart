@@ -10,7 +10,7 @@ use App\Http\Controllers\CategoryController;
 @endsection
 
 @section('admin_content')
-    <div class="row px-xl-5 mb-xl-3">
+    <div class="col px-xl-5 mb-xl-3">
         @include('layouts.heading')
         <div class="col-xl-5">
             <a href="{{ action([CategoryController::class, 'index']) }}"
@@ -33,35 +33,34 @@ use App\Http\Controllers\CategoryController;
                     <div class="col-xl-1 px-0">
                         <button id="new_item_code" class="btn btn-success"><i class="fa-solid fa-circle-plus"></i></button>
                     </div>
+                    @error('name')
+                    @include('components.error-message')
+                @enderror
                     <div class="col-xl-5 pe-1">
-                        <label for="item_code">Scan Using Camera</label>
-                        <select name="cam" id="cam" class="form-select mr-xl-3 d-inline-block align-middle"> --}}
-                            <option>Loading camera...</option>
-                        </select>
+                    <label for="name">Item Name</label>
+                <input name="name" id="name" class="form-control form-control-xl mr-xl-3" type="text" aria-label="name"
+                    value="{{ old('name') }}">
                     </div>
-                    <div class="col-xl-1 px-0">
-                        <button id="scanner" class="btn btn-success"><i class="fa-solid fa-barcode"></i></button>
-                    </div>
+                    
                 </div>
 
 
-                @error('name')
-                    @include('components.error-message')
-                @enderror
-                <label for="name">Item Name</label>
-                <input name="name" id="name" class="form-control form-control-xl mb-xl-3" type="text" aria-label="name"
-                    value="{{ old('name') }}">
+              
+             
 
                 @error('description')
                     @include('components.error-message')
                 @enderror
+                <div class="row">
+                    <div class="col-xl-5 pe-1">
                 <label for="description">Description</label>
                 <textarea name="description" id="description"
                     class="form-control form-control-xl mb-xl-3">{{ old('description') }}</textarea>
-
+                    </div>  
                 @error('category_id')
                     @include('components.error-message')
                 @enderror
+                <div class="col-xl-5 pe-1">
                 <label for="category_id">Category</label>
                 @if (count($categories) === 0)
                     <a href="{{ action([CategoryController::class, 'index']) }}"
@@ -75,6 +74,8 @@ use App\Http\Controllers\CategoryController;
                         @endforeach
                     </select>
                 @endif
+                </div>
+                </div>
 
                 @error('base_price')
                     @include('components.error-message')
@@ -98,7 +99,7 @@ use App\Http\Controllers\CategoryController;
                     <div class="col-xl-4">
                         <label for="markup">Markup Price</label>
                         <div class="input-group mb-xl-3">
-                            <input name="markup" id="markup" class="form-control form-control-xl" type="number" min="0" step=".01" 
+                            <input name="markup" id="markup" class="form-control form-control-xl" type="number" min="12" max="30" step=".01" 
                                 aria-label="markup" aria-describedby="markup-addon" value="{{ $markup }}"
                                 {{ getInputFloatPattern() }}>
                             <span class="input-group-text" id="markup-addon">%</span>
@@ -115,33 +116,43 @@ use App\Http\Controllers\CategoryController;
                 @error('unit')
                     @include('components.error-message')
                 @enderror
+                <div class="row">
+                    <div class="col-xl-3">
                 <label for="unit">Unit</label>
                 <select name="unit" id="unit" class="form-select mb-xl-3">
                     <option value="piece" {{ old('unit') == 'piece' ? 'selected' : '' }}>Piece</option>
                     <option value="liter" {{ old('unit') == 'liter' ? 'selected' : '' }}>Liter</option>
-                    <option value="kilogram" {{ old('unit') == 'kilogram' ? 'selected' : '' }}>Kilogram</option>
+                    <option value="Box" {{ old('unit') == 'Box' ? 'selected' : '' }}>Box</option>
                 </select>
-
+</div>
                 @error('stock')
                     @include('components.error-message')
                 @enderror
+                <div class="col-xl-4">
                 <label for="stock">Max Stocks</label>
                 <input name="stock" id="stock" class="form-control form-control-xl mb-xl-3" type="number" min="0"
                     placeholder="e.g. 100" aria-label="stock" value="{{ old('stock') }}">
-
+</div>
                 @error('expiration_date')
                     @include('components.error-message')
                 @enderror
+                <div class="col-xl-4">
                 <label for="expiration_date">Expiration Date</label>
                 <input name="expiration_date" id="expiration_date" class="form-control form-control-xl mb-xl-3" type="text"
                     placeholder="2030-12-30" aria-label="expiration_date" value="{{ old('expiration_date') }}"
                     autocomplete="off">
+                    </div>
+                </div>
+
 
                 @error('supplier')
                 @include('components.error-message')
                 @enderror
+                <div class="row">
+                    <div class="col-xl-6">
                 <label for="supplier">Supplier</label>
                 <select name="supplier" id="supplier" class="form-select mb-3">
+                    <option value="">---Choose a supplier---</option>
                     @foreach ($suppliers as $supplier)
                         <option value="{{ $supplier->id }}" 
                             {{ old('supplier') == $supplier->id ? 'selected' : '' }}>
@@ -149,27 +160,35 @@ use App\Http\Controllers\CategoryController;
                         </option>
                     @endforeach
                 </select>
+</div>
 
+                    <div class="col-xl-6">
                 <label for="vendor">Vendor</label>
                 <input type="text" name="vendor" id="vendor" value="{{ old('vendor') }}" class="form-control mb-3"
                     autocomplete="off" readonly>
-
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-xl-4">
                 <label for="company">Company</label>
                 <input type="text" name="company" id="company" value="{{ old('company') }}" class="form-control mb-3"
                     autocomplete="off" readonly>
-
+                    </div>
+                    <div class="col-xl-4">
                 <label for="contact">Contact Details</label>
                 <input type="text" name="contact" id="contact" value="{{ old('contact') }}" class="form-control mb-3"
                     autocomplete="off" readonly>
-
+                    </div>
+                    <div class="col-xl-4">
                 <label for="address">Address</label>
                 <input type="text" name="address" id="address" value="{{ old('address') }}" class="form-control mb-3"
                     autocomplete="off" readonly>
-
+                    </div>
+                    </div>
                 @error('inv_stock')
                     @include('components.error-message')
                 @enderror
-                <label for="inv_stock">Inventory Stocks (Optional)</label>
+                <label for="inv_stock">Current/Remaining Stocks (Optional)</label>
                 <input name="inv_stock" id="inv_stock" class="form-control form-control-xl mb-xl-3" type="number" min="0"
                     placeholder="e.g. 100" aria-label="inv_stock" value="{{ old('inv_stock') }}">
 
