@@ -6,11 +6,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\InventoryController;
+use App\Http\Traits\SearchTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Inventory extends Model
 {
     use HasFactory;
+    use SearchTrait;
+
 
     protected $table = "inventory";
 
@@ -37,20 +40,26 @@ class Inventory extends Model
             ->leftJoin('product as p', 'i.product_id', '=', 'p.id')
             ->leftJoin('product_category as c', 'c.id', '=', 'p.category_id')
             ->leftJoin('supplier as s', 's.id', '=', 'p.supplier_id')
-            ->orWhere(function ($query) use ($search) {
-                $query->where('p.item_code', 'LIKE', "%$search%")
-                    ->orWhere('p.name', 'LIKE', "%$search%");
-            })
             ->whereNull('status_id') // Null is default (not archived)
             ->when($category_id, function ($query) use ($category_id) {
                 $query->where('c.id', $category_id);
             })
             ->when($stock_filter, function ($query) use ($stock_filter) {
                 $this->filter_stock($query, $stock_filter);
-            })
-            ->orderBy('p.expiration_date', $expiry)
-            ->orderBy('p.name', 'asc')
-            ->paginate(Config::get('constant.per_page'))
+            });
+        $Products = $this->setWhereSearch(
+            $Products,
+            $search,
+            ['p.name' => '=', 'p.item_code' => '='],
+            ['p.name']
+        );
+
+        $Products->orderBy('p.expiration_date', $expiry)
+            ->orderBy('p.name', 'asc');
+
+        // echo $Products->toSql();
+        // die();
+        $Products = $Products->paginate(Config::get('constant.per_page'))
             ->withPath($page_path)
             ->appends(
                 [
@@ -59,7 +68,7 @@ class Inventory extends Model
                 ]
             )
             ->withQueryString();
-        // $Products->get();
+        
         // echo '<pre>';
         // print_r(DB::getQueryLog());
         // echo '</pre>';
@@ -228,6 +237,7 @@ class Inventory extends Model
             ->from('pos_transaction2product as pt2p')
             ->join('product as p', 'p.id', '=', 'pt2p.product_id')
             ->join('inventory_log as il', 'il.pt2p_id', '=', 'pt2p.id')
+            ->where('pt2p.pos_transaction_id', $transaction_id)
             ->orderBy('pt2p.id', 'asc');
 
         // $Products->get();

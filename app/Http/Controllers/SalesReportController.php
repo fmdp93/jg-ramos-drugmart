@@ -18,7 +18,7 @@ class SalesReportController extends Controller
         $from = urldecode($request->input('from'));
         $to = urldecode($request->input('to'));
         $model = new POSTransaction2ProductModel();
-        $data['heading'] = 'Sales Report';
+        $data['heading'] = 'SALES REPORT';
         DB::enableQueryLog();
         $this->dateFilterSetFrom($from);
         $this->dateFilterSetTo($to);

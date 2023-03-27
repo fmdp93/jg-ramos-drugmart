@@ -43,7 +43,7 @@ trait UserTrait
 
     public function editAccount()
     {
-        $data['heading'] = "Edit Account";
+        $data['heading'] = "EDIT ACCOUNT";
         $data['title'] = "Edit Account";
         $data['user'] = User::find(Auth::id());
         $data['action_class'] = self::$action_class;

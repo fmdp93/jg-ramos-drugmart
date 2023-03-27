@@ -28,7 +28,6 @@ class StorePurchaseOrderRequest extends FormRequest
     public function rules()
     {                
         return [
-            'supplier_search_id' => 'required|numeric|min:1',
             'vendor' => 'required',
             'contact' => 'required',
             'company' => 'required',

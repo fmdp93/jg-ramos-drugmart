@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Traits\SearchTrait;
 use Illuminate\Support\Facades\DB;
 use Database\Factories\ProductFactory;
 use Illuminate\Support\Facades\Config;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use HasFactory;
+    use SearchTrait;
 
     protected $table = 'product';
 
@@ -64,15 +66,18 @@ class Product extends Model
         )
             ->from('product as p')
             ->leftJoin('product_category as c', 'p.category_id', '=', 'c.id')
-            ->orWhere(function ($query) use ($search) {
-                $query->where('p.item_code', 'LIKE', "%$search%")
-                    ->orWhere('p.name', 'LIKE', "%$search%");
-            })
             ->when($category_id, function ($query) use ($category_id) {
                 $query->where('c.id', $category_id);
             })
-            ->where('p.deleted_at', null)
-            ->orderBy('p.id', 'desc')
+            ->where('p.deleted_at', null);
+        $Products = $this->setWhereSearch(
+            $Products,
+            $search,
+            ['p.item_code' => '=', 'p.name'  => '='],
+            ['p.name', 'p.description']
+        );
+
+        $Products = $Products->orderBy('p.id', 'desc')
             ->paginate(Config::get('constant.per_page'))
             ->withPath($page_path)
             ->appends(
@@ -82,6 +87,13 @@ class Product extends Model
                 ]
             )
             ->withQueryString();
+
+        // echo $Products->toSql();
+        // DB::enableQueryLog();
+        // $Products->get();        
+        // print_r(DB::getQueryLog());
+        // die();
+
         return $Products;
     }
 
