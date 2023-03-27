@@ -24,7 +24,7 @@ class ProductsController extends Controller
 
     public function index(Request $request)
     {
-        $data['heading'] = 'Products';
+        $data['heading'] = 'PRODUCTS';
         $data['categories'] = Category::whereNull('deleted_at')->orderBy('name')->get();
         $data['search'] = $request->input('q');
         $data['category_id'] = $request->input('category_id');
@@ -160,11 +160,11 @@ class ProductsController extends Controller
             'stock' => ['required', 'integer', 'min:1'],
             'expiration_date' => 'required|date',
             'inv_stock' => 'nullable|numeric|min:0',
-            'supplier_search_id' => 'required|numeric|min:1',
+            'supplier' => 'required|integer|min:1',
         ];
         $messages = [
             'item_code.integer' => 'Item code must be a valid barcode number',
-            'supplier_search_id.required' => 'Supplier is required',
+            'supplier.required' => 'Supplier is required',
         ];
 
         $validator = Validator::make($input, $rules, $messages);
@@ -184,7 +184,7 @@ class ProductsController extends Controller
         $Product->price = $request->input('selling_price');
         $Product->unit = $request->input('unit');
         $Product->stock = $request->input('stock');
-        $Product->supplier_id = $request->input('supplier_search_id');
+        $Product->supplier_id = $request->input('supplier');
         $Product->expiration_date = $request->input('expiration_date');
 
         $Product->save();

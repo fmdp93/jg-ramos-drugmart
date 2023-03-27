@@ -18,7 +18,7 @@ class IndexController extends Controller
         }else if($role_id == 2){ // cashier
             return redirect(action([POSController::class, 'index']));
         }
-        $data['h1'] = "Maemae's Store Login";
+        $data['h1'] = "JG Ramos Drugmart Login";
 
         return view('index', $data);
     }

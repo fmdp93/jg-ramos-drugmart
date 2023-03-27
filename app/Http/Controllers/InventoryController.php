@@ -28,7 +28,7 @@ class InventoryController extends Controller
 
     public function index(Request $request)
     {
-        $data['heading'] = 'Inventory';
+        $data['heading'] = 'INVENTORY';
         // Get parameters
         $data['categories'] = Category::whereNull('deleted_at')->orderBy('name')->get();
         $data['search'] = $request->input('q');
@@ -183,7 +183,13 @@ class InventoryController extends Controller
             ->orderBy('vendor', 'asc')
             ->get();
 
-        $this->setHalfStockTbodyContent($request);
+            if ($request->has('backorder')) {
+                $backorder = true;
+            } else {
+                $backorder = false;
+            }
+
+        $this->setHalfStockTbodyContent($request, $backorder);
 
         $this->setLastTableContent($request);
 
@@ -473,10 +479,12 @@ class InventoryController extends Controller
         $product = Inventory::select(
             DB::raw('p.id p_id, p.item_code, p.name p_name,
         p.description, p.base_price, p.unit, p.expiration_date, p.stock p_stock,
-        c.name c_name')
+        c.name c_name,
+        s.vendor, s.company_name, s.contact_detail, s.address')
         )
             ->from('product as p')
             ->leftJoin('product_category as c', 'p.category_id', '=', 'c.id')
+            ->join('supplier as s', 's.id', '=', 'p.supplier_id')
             ->where('p.item_code', $item_code)
             ->whereNull('p.deleted_at')
             ->whereIn('p.id', function ($query) {
@@ -506,11 +514,13 @@ class InventoryController extends Controller
                     - SUM(IF(i.stock is NULL, 0, i.stock))) order_quantity,
                 p.id p_id, p.item_code, p.name p_name,
                 p.description, p.base_price, p.unit, p.expiration_date, p.stock p_stock,
-                c.name c_name')
+                c.name c_name,
+                s.vendor, s.company_name, s.contact_detail, s.address')
         )
             ->from('product as p')
             ->leftJoin('product_category as c', 'p.category_id', '=', 'c.id')
             ->leftJoin('inventory as i', 'i.product_id', '=', 'p.id')
+            ->join('supplier as s', 's.id', '=', 'p.supplier_id')
             ->where('p.supplier_id', $supplier_id)
             ->whereNull('p.deleted_at')
             ->whereNull('i.status_id') //not archived
@@ -526,7 +536,10 @@ class InventoryController extends Controller
             $tbody_content .= $this->getPurchasOrderRow($product, $product->order_quantity);
         }
 
-        $params['tbody'] = $tbody_content;
+        $params = [
+            'tbody' => $tbody_content,
+            'result' => $product,
+        ];
         return $this->getPurcOrdResponse($params);
     }
 
