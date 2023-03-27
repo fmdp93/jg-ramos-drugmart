@@ -24087,3 +24087,196 @@ body {
   font-size: 26px;
 }
 
+small,
+.small {
+  font-size: 2.675em;
+}
+
+ekis,
+.ekis {
+  font-size: 0.675em;
+}
+
+k {
+  color: white;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #187bdd;
+  border-color: #187bdd;
+}
+
+.btn-success:hover {
+  color: #fff;
+  background-color: #187bdd;
+  border-color: #187bdd;
+}
+
+.btn-check:focus + .btn-success,
+.btn-success:focus {
+  color: #fff;
+  background-color: #187bdd;
+  border-color: #187bdd;
+  box-shadow: 0 0 0 0.25rem rgba(60, 153, 110, 0.5);
+}
+
+.btn-check:checked + .btn-success,
+.btn-check:active + .btn-success,
+.btn-success:active,
+.btn-success.active,
+.show > .btn-success.dropdown-toggle {
+  color: #fff;
+  background-color: #187bdd;
+  border-color: #187bdd;
+}
+
+.btn-check:checked + .btn-success:focus,
+.btn-check:active + .btn-success:focus,
+.btn-success:active:focus,
+.btn-success.active:focus,
+.show > .btn-success.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.25rem rgba(23, 180, 248, 0.932);
+}
+
+.btn-success:disabled,
+.btn-success.disabled {
+  color: #fff;
+  background-color: #187bdd;
+  border-color: #187bdd;
+}
+
+.btn-half {
+  color: #000;
+  background-color: red;
+  border-color: red;
+}
+
+.btn-half:hover {
+  color: white;
+  background-color: red;
+  border-color: red;
+}
+
+.btn-check:focus + .btn-half,
+.btn-half:focus {
+  color: white;
+  background-color: red;
+  border-color: red;
+  box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.5);
+}
+
+.btn-check:checked + .btn-half,
+.btn-check:active + .btn-half,
+.btn-half:active,
+.btn-half.active,
+.show > .btn-half.dropdown-toggle {
+  color: white;
+  background-color: red;
+  border-color: red;
+}
+
+.btn-check:checked + .btn-half:focus,
+.btn-check:active + .btn-half:focus,
+.btn-half:active:focus,
+.btn-half.active:focus,
+.show > .btn-half.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.5);
+}
+
+.btn-half:disabled,
+.btn-half.disabled {
+  color: #000;
+  background-color: red;
+  border-color: red;
+}
+
+.d-block {
+  float: left;
+  display: block !important;
+}
+
+.bg-info {
+  background-color: black !important;
+}
+
+.bg-warning {
+  background-color: #191970 !important;
+}
+
+.bg-half {
+  background-color: red !important;
+}
+
+body {
+  background-color: #f2faff;
+}
+
+#wrapper a:link,
+#wrapper a:visited {
+  color: #002863;
+  text-decoration: none;
+}
+
+#wrapper div,
+#wrapper span,
+#wrapper p,
+#wrapper h1,
+#wrapper .h1,
+#wrapper h2,
+#wrapper .h2,
+#wrapper h3,
+#wrapper .h3 {
+  color: black;
+}
+
+#wrapper h6,
+#wrapper .h6 {
+  color: white;
+}
+
+#wrapper .side-nav a.active,
+#wrapper .side-nav a:hover,
+#wrapper #log-manager a.active,
+#wrapper #log-manager a:hover {
+  background: #0f366f;
+}
+
+#wrapper .side-nav a.active .icon-container,
+#wrapper .side-nav a:hover .icon-container,
+#wrapper #log-manager a.active .icon-container,
+#wrapper #log-manager a:hover .icon-container {
+  background: white;
+}
+
+#wrapper .side-nav a.active span,
+#wrapper .side-nav a:hover span,
+#wrapper #log-manager a.active span,
+#wrapper #log-manager a:hover span {
+  color: black;
+}
+
+#wrapper .side-nav a.active i,
+#wrapper .side-nav a:hover i,
+#wrapper #log-manager a.active i,
+#wrapper #log-manager a:hover i {
+  color: black;
+}
+
+#wrapper .side-nav .icon-container,
+#wrapper #log-manager .icon-container {
+  width: 40px;
+  height: 40px;
+  line-height: normal;
+  background: white;
+  transition: 0.4s;
+}
+
+#wrapper .side-nav i,
+#wrapper #log-manager i {
+  color: black;
+  line-height: 40px;
+  font-size: 20px;
+  transition: 0.4s;
+}
+
