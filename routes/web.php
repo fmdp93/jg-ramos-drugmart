@@ -118,12 +118,17 @@ Route::group(['middleware' => 'auth'], function () {
     defined('URI_INV_ORDER_HISTORY') || define('URI_INV_ORDER_HISTORY', '/inventory/order-history');
     Route::get(URI_INV_ORDER_HISTORY, [InventoryController::class, 'orderHistory'])
       ->name('inventory_order_history');
+    Route::get('/inventory/back-order', [InventoryController::class, 'backOrder'])
+      ->name('back_order');
+
     Route::get('/inventory/order-history/print', [InventoryController::class, 'print_inventory_order_report'])
       ->name('print_inventory_order_report');
     // Async 
     Route::get('/inventory/search', [InventoryController::class, 'inventorySearch']);
     Route::get('/inventory/order-history-search', [InventoryController::class, 'searchOrderHistory'])
       ->name('search_order_history');
+    Route::get('/inventory/search_back_order', [InventoryController::class, 'searchBackOrder'])
+      ->name('search_back_order');
     Route::get('/purchase-order/search/', [InventoryController::class, 'purchaseOrderSearch']);
     Route::get('/purchase-order/supplier-search/', [InventoryController::class, 'purchaseOrderSupplierSearch']);
     Route::get('/vendor/search', [SuppliersController::class, 'searchVendor']);

@@ -183,11 +183,11 @@ class InventoryController extends Controller
             ->orderBy('vendor', 'asc')
             ->get();
 
-            if ($request->has('backorder')) {
-                $backorder = true;
-            } else {
-                $backorder = false;
-            }
+        if ($request->has('backorder')) {
+            $backorder = true;
+        } else {
+            $backorder = false;
+        }
 
         $this->setHalfStockTbodyContent($request, $backorder);
 
@@ -286,32 +286,36 @@ class InventoryController extends Controller
          * to the amount where it came from
          */
 
-        if ($quantity < $io2p->quantity) {
-            $new_io2p = new InventoryOrder2Product();
-            $new_io2p->transaction_id = $io2p->transaction_id;
-            $new_io2p->product_id = $product_id;
-            $new_io2p->quantity = $quantity;
-            $new_io2p->price = $this->price;
-            $new_io2p->status_id = STATUS_ORDER_RECEIVED;
-            $new_io2p->date_received = date('Y-m-d H:i:s');
+        // if ($quantity < $io2p->quantity) {
+        //     $new_io2p = new InventoryOrder2Product();
+        //     $new_io2p->transaction_id = $io2p->transaction_id;
+        //     $new_io2p->product_id = $product_id;
+        //     $new_io2p->quantity = $quantity;
+        //     $new_io2p->price = $this->price;
+        //     $new_io2p->status_id = STATUS_ORDER_RECEIVED;
+        //     $new_io2p->date_received = date('Y-m-d H:i:s');
 
-            $new_io2p->save();
+        //     $new_io2p->save();
 
-            // deduct io2p quantity
-            InventoryOrder2Product::where('id', $io2p_id)
-                ->update([
-                    'quantity' => DB::raw("quantity - $quantity"),
-                ]);
-        } else {
-            // Order received remaining quantity for existing io2p    
-            InventoryOrder2Product::where('id', $io2p_id)
-                ->update([
-                    'quantity' => $quantity,
-                    'price' => $this->price,
-                    'date_received' => date('Y-m-d H:i:s'),
-                    'status_id' => STATUS_ORDER_RECEIVED,
-                ]);
-        }
+        //     // deduct io2p quantity
+        //     InventoryOrder2Product::where('id', $io2p_id)
+        //         ->update([
+        //             'quantity' => DB::raw("quantity - $quantity"),
+        //         ]);
+        // } else {
+        // Order received remaining quantity for existing io2p    
+
+        $back_order_quantity = $io2p->quantity - $quantity;
+        $back_order_quantity = max($back_order_quantity, 0); // can't be negative
+        InventoryOrder2Product::where('id', $io2p_id)
+            ->update([
+                'quantity' => $quantity,
+                'back_order_quantity' => $back_order_quantity,
+                'price' => $this->price,
+                'date_received' => date('Y-m-d H:i:s'),
+                'status_id' => STATUS_ORDER_RECEIVED,
+            ]);
+        // }
     }
 
     private function saveDateDelivered()
@@ -609,6 +613,59 @@ class InventoryController extends Controller
         $response = json_encode($response);
         return Response()->json($response);
     }
+
+    public function backOrder(Request $request)
+    {
+        $from = urldecode($request->input('from'));
+        $to = urldecode($request->input('to'));
+        $q = trim($request->input('q'));
+
+        $data['heading'] = "Back Order";
+        $data['title'] = "Back Order";
+
+        $InventoryOrder2Product = new InventoryOrder2Product();
+        DB::enableQueryLog();
+        $data['products'] = $InventoryOrder2Product->getBackOrder(
+            route('back_order'), $from, $to, $q);
+        $data['d_none'] = count($data['products']) ? 'd-none' : '';
+        $data['q'] = request()->input("q");
+
+        return view('pages.admin.back-order', $data);
+    }
+
+    public function searchBackOrder(Request $request)
+    {
+
+        $InventoryOrder2Product = new InventoryOrder2Product();
+        $from = urldecode($request->input('from'));
+        $to = urldecode($request->input('to'));
+        $q = trim($request->input('q'));
+
+        DB::enableQueryLog();
+        $data['products'] = $InventoryOrder2Product->getBackOrder(
+            route('back_order'),
+            $from,
+            $to,
+            $q
+        );
+
+        $rows = (string) view("components.admin.back-order-list", $data);
+
+        $data['d_none'] = count($data['products']) ? 'd-none' : '';
+        $table_empty = (string) view("layouts.empty-table", $data);
+        $links = (string) $data['products']->links();
+        $row_count = count($data['products']);
+        $response = [
+            'rows_html' => $rows,
+            'links_html' => $links,
+            'table_empty' => $table_empty,
+            'row_count' => $row_count,
+            'last_query' => DB::getQueryLog(),
+        ];
+        $response = json_encode($response);
+        return Response()->json($response);
+    }
+
 
     public function print_inventory_order_report(Request $request)
     {
