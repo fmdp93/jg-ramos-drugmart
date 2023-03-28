@@ -33,12 +33,12 @@
                             value="{{ request()->input('to') }}">
                         <input type="submit" class="btn btn-primary px-4 my-auto" value="Filter">
                     </form>
-                    <a href="{{ route('print_inventory_order_report', [
+                    {{-- <a href="{{ route('print_inventory_order_report', [
                         'from' => request()->input('from'),
                         'to' => request()->input('to'),
                     ]) }}"
                         class="btn btn-success text-white mt-3 float-end">
-                        <i class="fa-solid fa-print"></i> Print</a>
+                        <i class="fa-solid fa-print"></i> Print</a> --}}
                 </div>
             </div>
         </div>
